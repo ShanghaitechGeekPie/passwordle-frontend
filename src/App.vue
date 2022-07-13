@@ -1,38 +1,10 @@
 <script setup lang="ts">
 import GuessDisplay from "@/components/GuessDisplay.vue";
-import { reactive } from "@vue/reactivity";
-import { getPreset } from "@/composables/useCookie";
-import { provide } from "@vue/runtime-core";
-import useGuess from "@/composables/useGuess";
-import CookiePreset from "./types/CookiePreset";
+import usePasswordle from "@/composables/usePasswordle";
+import $global from "@/composables/useGlobal"
 
-const guess = reactive({
-  hash: (() => {
-    let res = "";
-    for (let i = 0; i < 24; i++) {
-      res += " ";
-    }
-    return res;
-  })(), 
-  guess: (() => {
-    let res = [];
-    for (let i = 0; i < 24; i++) {
-      res.push("None");
-    }
-    return res;
-  })(), 
-});
-
-const preset = reactive(getPreset());
-
-provide("preset", preset);
-provide("guess", guess);
-
-const status = reactive({
-  action: ""
-})
-
-const { doCreateGame, doGetGame, doTakeAction } = useGuess(preset, guess);
+const { status, doCreateGame, doGetGame, doMakeGuess } = usePasswordle();
+doGetGame()
 
 </script>
 
@@ -47,16 +19,23 @@ const { doCreateGame, doGetGame, doTakeAction } = useGuess(preset, guess);
       <div>
         <div class="py-8">
           <div class="text-4xl">!!!INPUT AREA!!!</div>
-          <input type="text" v-model="status.action" />
-          <button @click="doTakeAction(status.action)">Confirm</button>
+          <input type="text" v-model="status.surmise" />
+          <button @click="doMakeGuess()">Confirm</button>
           <br>
           <button @click="doCreateGame()">Start</button>
+          <div>
+            {{ $global.steps }} / 64
+          </div>
+          <div v-if="status.loading">
+            loading...
+          </div>
+          <div>{{ status.error }}</div>
         </div>
         <div class="py-8">
           <div class="text-4xl">!!!NOTICE AREA!!!</div>
         </div>
         <div>
-          <GuessDisplay :guess="guess" />
+          <GuessDisplay :guess="$global.result" />
         </div>
       </div>
     </div>

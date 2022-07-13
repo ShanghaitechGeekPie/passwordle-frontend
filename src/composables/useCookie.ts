@@ -29,16 +29,27 @@ function getCookies(keys: string[]): { [key: string]: string } {
     return result;
 }
 
-function setPreset(preset: CookiePreset) {
-    setCookie("preset", preset.id, 24 * 60 * 60);
+function setPreset(preset: Partial<CookiePreset>) {
+    const target = getPreset();
+    for (const key in preset) {
+        target[key] = preset[key];  
+    }
+    setCookie("preset", btoa(JSON.stringify(target)), 24 * 60 * 60);
 }
 
 function getPreset(): CookiePreset {
-    const presetId = getCookie("preset");
-    return { id: presetId };
+    const preset = getCookie("preset") 
+        ? JSON.parse(atob(getCookie("preset"))) : {};
+    const result = new CookiePreset();
+    for (const key in result) {
+        if (preset[key]) {
+            result[key] = preset[key]
+        }
+    }
+    return result;
 }
 
-function clearCookies() {
+function clearPreset() {
     setCookie("preset", "");
 }
 
@@ -46,13 +57,13 @@ function hasPreset(): boolean {
     return getCookie("preset") !== "";
 }
 
-export { 
-    setCookie, 
-    setCookies, 
-    getCookie, 
-    getCookies, 
-    setPreset, 
-    getPreset, 
-    clearCookies, 
-    hasPreset 
+export {
+    setCookie,
+    setCookies,
+    getCookie,
+    getCookies,
+    setPreset,
+    getPreset,
+    clearPreset,
+    hasPreset
 };
