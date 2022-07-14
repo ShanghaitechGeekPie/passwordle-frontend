@@ -93,7 +93,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .element {
-  @apply mx-2 rounded border border-gray-400 w-16 h-16 text-center;
+  @apply mx-2 rounded border border-gray-400 w-16 h-16 text-center select-none;
   caret-color: transparent;
 }
 
