@@ -20,7 +20,7 @@ export default () => {
         status.loading = true
         status.error = "";
         try {
-            const response = await fetchByPost("/create/123");
+            const response = await fetchByPost("/create/");
             clearPreset();
             setPreset({
                 id: response.data.id,            

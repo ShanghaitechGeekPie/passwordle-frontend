@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import GuessDisplay from "@/components/GuessDisplay.vue";
+import Keyboard from "@/components/Keyboard.vue";
 import usePasswordle from "@/composables/usePasswordle";
 import $global from "@/composables/useGlobal"
 
@@ -36,6 +37,9 @@ doGetGame()
         </div>
         <div>
           <GuessDisplay :guess="$global.result" />
+        </div>
+        <div>
+          <Keyboard/>
         </div>
       </div>
     </div>
