@@ -1,53 +1,45 @@
 <script setup lang="ts">
 import GuessDisplay from "@/components/GuessDisplay.vue";
+import InputDisplay from "@/components/InputDisplay.vue";
+import Divider from "@/components/Divider.vue";
 import usePasswordle from "@/composables/usePasswordle";
-import $global from "@/composables/useGlobal"
+import $global from "@/composables/useGlobal";
 
 const { status, doCreateGame, doGetGame, doMakeGuess } = usePasswordle();
-doGetGame()
-
+doGetGame();
 </script>
 
 <template>
-  <div class="d-divider-y">
+  <div>
     <header>
-      <div class="px-4 py-2 d-flex-center">
+      <div class="px-4 py-2 flex-center">
         <h1 class="text-4xl font-bold font-mono">Passwordle</h1>
       </div>
     </header>
-    <div class="d-flex-center">
+    <Divider />
+    <div class="flex-center pt-48">
+      <GuessDisplay :guess="$global.result" />
+    </div>
+    <div class="py-8 flex-center">
+      <div>{{ $global.steps }} / 64</div>
+      <div v-if="status.loading">loading...</div>
+      <div>{{ status.error }}</div>
+    </div>    
+    <div class="py-8 flex-center">
+      <button @click="doMakeGuess()">Confirm</button>
+      <br />
+      <button @click="doCreateGame()">Start</button>
+    </div>    
+    <div class="py-8 flex-center">
       <div>
-        <div class="py-8">
-          <div class="text-4xl">!!!INPUT AREA!!!</div>
-          <input type="text" v-model="status.surmise" />
-          <button @click="doMakeGuess()">Confirm</button>
-          <br>
-          <button @click="doCreateGame()">Start</button>
-          <div>
-            {{ $global.steps }} / 64
-          </div>
-          <div v-if="status.loading">
-            loading...
-          </div>
-          <div>{{ status.error }}</div>
-        </div>
-        <div class="py-8">
-          <div class="text-4xl">!!!NOTICE AREA!!!</div>
-        </div>
-        <div>
-          <GuessDisplay :guess="$global.result" />
-        </div>
+        <InputDisplay length="8" v-model="status.surmise" />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.d-divider-y {
-  @apply divide-solid divide-y;
-}
-
-.d-flex-center {
+.flex-center {
   @apply flex justify-center;
 }
 </style>
