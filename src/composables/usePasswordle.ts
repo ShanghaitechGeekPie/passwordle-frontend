@@ -61,7 +61,12 @@ export default () => {
             } else if (isBackendError(response)) {
                 status.error = "Backend error"
             } else {
-                status.error = "Invalid request"
+                if (response.status === 404) {
+                    clearPreset()
+                    status.error = "Overtime game id"
+                } else {
+                    status.error = "Invalid request"
+                }                
             }
         } finally {
             status.loading = false
@@ -70,6 +75,7 @@ export default () => {
     }
 
     const doMakeGuess = async () => {
+        console.log(status.surmise)
         if (!$global.id) {
             return
         }
@@ -86,7 +92,6 @@ export default () => {
                 steps: $global.steps + 1,
             })
             $global.result = response.data;
-            console.log(getPreset())
             $global.steps += 1;
         } catch (err: any) {
             let response = err.response
@@ -95,7 +100,12 @@ export default () => {
             } else if (isBackendError(response)) {
                 status.error = "Backend error"
             } else {
-                status.error = "Invalid request"
+                if (response.status === 404) {
+                    clearPreset()
+                    status.error = "Overtime game id"
+                } else {
+                    status.error = "Invalid request"
+                }   
             }
         } finally {
             status.loading = false

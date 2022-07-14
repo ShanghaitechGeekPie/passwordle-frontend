@@ -37,6 +37,7 @@ doGetGame();
         :index="i"
         :key="i"
         :filter="(str: string) => /^[a-z0-9A-Z]$/.test(str)"
+        @finish="status.surmise = $event, doMakeGuess()"
       />
     </div>
     <div class="py-8 flex-center">

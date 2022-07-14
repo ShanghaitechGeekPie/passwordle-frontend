@@ -3,7 +3,7 @@
     type="text"
     ref="inputBox"
     @focus="setFocus"
-    :class="['element', 'element-highlight']"
+    class="element element-highlight"
     @keydown="handleKey"
     @input="handleInput"
   />
@@ -24,7 +24,7 @@ export default defineComponent({
       default: (str: string) => true 
     }
   },
-  setup(props) {
+  setup(props, context) {
     const { buffer, cursor, pushChar, popChar, moveCursor } = useTextInput();
     const inputBox = ref<HTMLInputElement | null>(null);
     const handleKey = (event: KeyboardEvent) => {
@@ -40,6 +40,8 @@ export default defineComponent({
       } else if (event.key == "ArrowRight") {
         event.preventDefault();
         moveCursor(props.index + 1);
+      } else if (event.key == "Enter") {
+        context.emit("finish", buffer.map((c) => c.value ? c.value : " ").join(""));
       } else if (buffer[props.index].value !== null) {
         event.preventDefault();
         if (props.filter(event.key)) {
@@ -69,7 +71,7 @@ export default defineComponent({
       if (newValue === props.index && inputBox.value) {
         inputBox.value.focus();
       }
-    });
+    }, { deep: true });
     watch(buffer[props.index], (newValue) => {
       if (inputBox.value) {
         if (newValue !== null) {
