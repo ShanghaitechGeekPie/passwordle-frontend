@@ -2,6 +2,7 @@
 import GuessDisplay from "@/components/GuessDisplay.vue";
 import InputDisplay from "@/components/InputDisplay.vue";
 import Divider from "@/components/Divider.vue";
+import Keyboard from "@/components/Keyboard.vue";
 import usePasswordle from "@/composables/usePasswordle";
 import $global from "@/composables/useGlobal";
 
@@ -31,9 +32,10 @@ doGetGame();
       <button @click="doCreateGame()">Start</button>
     </div>    
     <div class="py-8 flex-center">
-      <div>
-        <InputDisplay length="8" v-model="status.surmise" />
-      </div>
+      <InputDisplay length="8" v-model="status.surmise" />
+    </div>
+    <div class="py-8 flex-center">
+      <Keyboard/>
     </div>
   </div>
 </template>
