@@ -1,12 +1,13 @@
 <template>
-  <div>  
-    <input type="text"
+  <div>
+    <input
+      type="text"
       ref="inputBox"
-      @focus="$emit('attention', index)"
       :class="['element', highlight ? 'element-highlight' : '']"
-      @keydown="handleKeyDown($event), handleArrow($event)"
+      @focus="$emit('attention', index), setSelection()"
+      @keydown="handleKeyDown($event)"
       @input="handleInput($event)"
-    >
+    />
   </div>
 </template>
 <script lang="ts">
@@ -26,20 +27,22 @@ export default defineComponent({
   }, 
   methods: {
     setFocus() {
-      (this.$refs.inputBox as HTMLElement).focus();
+      (this.$refs.inputBox as HTMLInputElement).focus()
     }, 
     setInput(val: string = "") {
       val = (val == "\0") ? "" : val;
       (this.$refs.inputBox as HTMLInputElement).value = val;
     }, 
+    setSelection() {
+      (this.$refs.inputBox as HTMLInputElement).select()
+    }, 
     handleKeyDown(event: KeyboardEvent) {
       if (event.key == "Backspace") {
         this.$emit("backspace", event)
-      }
-    }, 
-    handleArrow(event: KeyboardEvent) {
-      if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+      } else if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
         this.$emit("arrow", event)
+      } else if (event.key == "Enter") {
+        this.$emit("enter", event)
       }
     }, 
     handleInput(event: any) {
@@ -52,10 +55,10 @@ export default defineComponent({
 </script>
 <style scoped>
 .element {
-  @apply rounded border border-gray-400 w-16 h-16 text-center
+  @apply rounded border border-gray-400 w-16 h-16 text-center;
 }
 
 .element-highlight {
-  @apply border-blue-600 outline-none border-2
+  @apply border-blue-600 outline-none border-2;
 }
 </style>

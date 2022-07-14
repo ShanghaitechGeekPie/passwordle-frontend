@@ -11,6 +11,7 @@
           @attention="currentFocus = $event"
           @backspace="handleBackspace($event)"
           @arrow="handleArrow($event)"
+          @enter="handleEnter($event)"
           @inputChar="handleInputChar($event)"
         />
         {{currentFocus}}
@@ -38,6 +39,10 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    filter: {
+      type: Function, 
+      default: (str: string) => true
+    }
   },
   components: {
     InputElement,
@@ -85,21 +90,18 @@ export default defineComponent({
         elements[this.currentFocus - 1].setFocus();
       }
     }, 
+    handleEnter(event: KeyboardEvent) {
+
+    }, 
     handleInputChar(str: string) {
       if (this.currentFocus <= this.length) {
         let elements = this.$refs.inputElements as Array<any>;
-        if (this.buffer[this.currentFocus - 1] == "\0") {
+        if (this.buffer[this.currentFocus - 1] == "\0" || this.filter(str)) {
           this.buffer[this.currentFocus - 1] = str;
           this.currentFocus < this.length ? this.currentFocus++ : null;          
           elements[this.currentFocus - 1].setFocus()
         } else {
-          elements[this.currentFocus - 1].setInput(this.buffer[this.currentFocus - 1]);
-          if (this.currentFocus < this.length) {
-            this.currentFocus++;            
-            this.buffer[this.currentFocus - 1] = str[1];
-            elements[this.currentFocus - 1].setInput(this.buffer[this.currentFocus - 1]);
-            elements[this.currentFocus - 1].setFocus()
-          }          
+          elements[this.currentFocus - 1].setInput(this.buffer[this.currentFocus - 1]);        
         }
       }
     }, 
