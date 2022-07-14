@@ -4,11 +4,11 @@ import { setPreset, getPreset, clearPreset } from "@/composables/useCookie"
 import useRefCopy from "@/composables/useRefCopy";
 import $global from "@/composables/useGlobal"
 import CookiePreset from "@/types/CookiePreset";
-import { isBackendError, isNetworkError } from "./useHttpError";
+import { isBackendError, isNetworkError } from "@/composables/useHttpError";
 
 export default () => {
 
-    useRefCopy(getPreset(), $global)
+    $global.id = getPreset().id;
 
     const status = reactive({
         surmise: "",
@@ -21,13 +21,12 @@ export default () => {
         status.error = "";
         try {
             const response = await fetchByPost("/create/");
-            clearPreset();
+            clearPreset();            
             setPreset({
                 id: response.data.id,            
             });
+            useRefCopy(new CookiePreset(), $global)
             $global.id = response.data.id
-            $global.steps = 0;
-            $global.result = (new CookiePreset).result;
         } catch (err: any) {
             let response = err.response
             if (isNetworkError(response)) {
@@ -46,13 +45,14 @@ export default () => {
         if (!$global.id) {
             return
         }
-        status.loading = true
-        $global.result = (new CookiePreset).result
+        status.loading = true;
+        status.error = "";
         try {
             const response = await fetchByGet(`/games/${$global.id}`);
             setPreset({
                 steps: response.data.guess_count
             })
+            useRefCopy(getPreset(), $global)
             $global.steps = response.data.guess_count;
         } catch (err: any) {
             let response = err.response                
@@ -63,6 +63,7 @@ export default () => {
             } else {
                 if (response.status === 404) {
                     clearPreset()
+                    useRefCopy(new CookiePreset(), $global)
                     status.error = "Overtime game id"
                 } else {
                     status.error = "Invalid request"
@@ -70,19 +71,24 @@ export default () => {
             }
         } finally {
             status.loading = false
-            $global.result = getPreset().result
         }
     }
 
     const doMakeGuess = async () => {
-        console.log(status.surmise)
         if (!$global.id) {
             return
         }
         if (!(/^[a-z0-9A-Z]{8}$/.test(status.surmise))) {
             return
         }
+        if ($global.steps === 64) {
+            clearPreset()
+            useRefCopy(new CookiePreset(), $global)
+            status.error = "Reach maxium steps";
+            return   
+        }
         status.loading = true
+        status.error = "";
         try {
             const response = await fetchByPost(`/guess/${$global.id}`, {
                 guess: status.surmise,
@@ -102,6 +108,7 @@ export default () => {
             } else {
                 if (response.status === 404) {
                     clearPreset()
+                    useRefCopy(new CookiePreset(), $global)
                     status.error = "Overtime game id"
                 } else {
                     status.error = "Invalid request"
