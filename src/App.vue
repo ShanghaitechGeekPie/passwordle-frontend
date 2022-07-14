@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import GuessDisplay from "@/components/GuessDisplay.vue";
-import InputDisplay from "@/components/InputDisplay.vue";
 import Divider from "@/components/Divider.vue";
 import Keyboard from "@/components/Keyboard.vue";
 import usePasswordle from "@/composables/usePasswordle";
+import GuessDisplay from "@/components/GuessDisplay.vue";
 import $global from "@/composables/useGlobal";
+import InputElement from "@/components/InputElement.vue";
 
 const { status, doCreateGame, doGetGame, doMakeGuess } = usePasswordle();
 doGetGame();
@@ -32,7 +32,7 @@ doGetGame();
       <button @click="doCreateGame()">Start</button>
     </div>    
     <div class="py-8 flex-center">
-      <InputDisplay length="8" v-model="status.surmise" />
+      <InputElement v-for="i in new Array(8).fill(0).map((_,j)=>j)" :index="i" :key="i"/>
     </div>
     <div class="py-8 flex-center">
       <Keyboard/>

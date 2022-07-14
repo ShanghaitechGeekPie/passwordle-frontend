@@ -1,11 +1,12 @@
 <template>
-  <button :class="'element '+(shiftPressed?'uppercase':'lowercase')">
-    <slot/>
+  <button :class="['element', shiftPressed?'uppercase':'lowercase']" @click="onClick">
+    {{letter}}
   </button>
 </template>
 
 <script>
 import {defineComponent} from "vue";
+import useTextInput from "@/composables/useTextInput";
 
 export default defineComponent({
   name: 'SimpleKey',
@@ -13,9 +14,21 @@ export default defineComponent({
     shiftPressed: {
       required: true,
       type: Boolean,
+    },
+    letter: {
+      required: true,
+      type: String
     }
   },
-
+  setup(props) {
+    const {pushChar} = useTextInput();
+    const onClick = () => {
+      pushChar(props.shiftPressed ? props.letter.toUpperCase() : props.letter.toString())
+    }
+    return {
+      onClick,
+    }
+  }
 })
 </script>
 

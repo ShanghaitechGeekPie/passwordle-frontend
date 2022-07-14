@@ -1,23 +1,23 @@
 <template>
   <div class="flex flex-col items-center select-none">
     <div class="row">
-      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in '1234567890'">{{ letter }}</SimpleKey>
+      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in '1234567890'" :letter="letter"/>
     </div>
     <div class="row">
-      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in 'qwertyuiop'">{{ letter }}</SimpleKey>
+      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in 'qwertyuiop'" :letter="letter"/>
     </div>
     <div class="row">
-      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in 'asdfghjkl'">{{ letter }}</SimpleKey>
-      <SimpleKey :shiftPressed="shiftPressed">
+      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in 'asdfghjkl'" :letter="letter"/>
+      <button class="key active:bg-gray-500 active:text-white" @click="popChar">
         <font-awesome-icon icon="fa-solid fa-delete-left"/>
-      </SimpleKey>
+      </button>
     </div>
     <div class="row">
-      <button :class="'key '+(shiftPressed?'press':'release')">
+      <button :class="['key', shiftPressed?'press':'release']">
         <font-awesome-icon icon="fa-solid fa-angle-up" @click="onClickShift"/>
       </button>
-      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in 'zxcvbnm'">{{ letter }}</SimpleKey>
-      <button :class="'enter active:bg-gray-500 active:text-white'">
+      <SimpleKey :shiftPressed="shiftPressed" v-for="letter in 'zxcvbnm'" :letter="letter"/>
+      <button class="enter active:bg-gray-500 active:text-white">
         enter
       </button>
     </div>
@@ -29,17 +29,19 @@ import {defineComponent, ref} from "vue";
 import SimpleKey from "@/components/SimpleKey.vue"
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {faChessQueen} from '@fortawesome/free-solid-svg-icons'
+import useTextInput from "@/composables/useTextInput";
 
 export default defineComponent({
   name: "Keyboard",
   components: {SimpleKey, FontAwesomeIcon, faChessQueen},
   setup() {
+    const {popChar} = useTextInput();
     const shiftPressed = ref(false);
     const onClickShift = (e: Event) => {
       e.stopPropagation();
       shiftPressed.value = !shiftPressed.value;
     }
-    return {shiftPressed, onClickShift};
+    return {shiftPressed, onClickShift, popChar};
   }
 })
 </script>
