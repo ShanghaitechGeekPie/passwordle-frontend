@@ -25,17 +25,22 @@ doGetGame();
       <div>{{ $global.steps }} / 64</div>
       <div v-if="status.loading">loading...</div>
       <div>{{ status.error }}</div>
-    </div>    
+    </div>
     <div class="py-8 flex-center">
       <button @click="doMakeGuess()">Confirm</button>
       <br />
       <button @click="doCreateGame()">Start</button>
-    </div>    
-    <div class="py-8 flex-center">
-      <InputElement v-for="i in new Array(8).fill(0).map((_,j)=>j)" :index="i" :key="i"/>
     </div>
     <div class="py-8 flex-center">
-      <Keyboard/>
+      <InputElement
+        v-for="i in new Array(8).fill(0).map((_, j) => j)"
+        :index="i"
+        :key="i"
+        :filter="(str: string) => /^[a-z0-9A-Z]$/.test(str)"
+      />
+    </div>
+    <div class="py-8 flex-center">
+      <Keyboard />
     </div>
   </div>
 </template>
