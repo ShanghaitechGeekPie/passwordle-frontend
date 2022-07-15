@@ -28,7 +28,7 @@ doGetGame();
           <div>{{ $global.steps }}/64</div>
         </div>
       </div>
-      <div class="select-none flex flex-col md:flex-row items-center font-mono">
+      <div :class="['select-none flex flex-col md:flex-row items-center font-mono', {'opacity-0':!$global.id}]">
         <div class="md:contents">
           <span>md5('</span>
           <InputElement
@@ -44,13 +44,13 @@ doGetGame();
         </div>
       </div>
       <div>
-        <div class="h-8 message" v-if="status.loading">loading...</div>
+        <div class="h-8 message" v-if="status.loading"></div>
         <div class="h-8 message" v-else-if="!status.error">
           {{ status.error }}
         </div>
         <div class="h-8" v-else></div>
       </div>
-      <Keyboard/>
+      <Keyboard :class="[{'opacity-0':!$global.id}]"/>
     </div>
   </div>
 </template>
