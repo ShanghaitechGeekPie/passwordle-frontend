@@ -47,11 +47,19 @@ export default () => {
         }
     }
 
+    const clear = ()=>{
+        for(let buf of buffer){
+            buf.value = null;
+        }
+        moveCursor(0);
+    }
+
     return {
         buffer,
         cursor,
         pushChar,
         popChar,
         moveCursor,
+        clear,
     }
 }

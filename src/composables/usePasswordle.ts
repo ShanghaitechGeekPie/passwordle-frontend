@@ -5,6 +5,7 @@ import useRefCopy from "@/composables/useRefCopy";
 import $global from "@/composables/useGlobal"
 import CookiePreset from "@/types/CookiePreset";
 import { isBackendError, isNetworkError } from "@/composables/useHttpError";
+import useTextInput from "@/composables/useTextInput";
 
 export default () => {
 
@@ -23,10 +24,12 @@ export default () => {
             const response = await fetchByPost("/create/");
             clearPreset();            
             setPreset({
-                id: response.data.id,            
+                id: response.data.id,
+                salt: response.data.salt,
             });
             useRefCopy(new CookiePreset(), $global)
             $global.id = response.data.id
+            $global.salt = response.data.salt;
         } catch (err: any) {
             let response = err.response
             if (isNetworkError(response)) {
@@ -87,6 +90,8 @@ export default () => {
             status.error = "Reach maxium steps";
             return   
         }
+        let {clear} = useTextInput();
+        clear();
         status.loading = true
         status.error = "";
         try {

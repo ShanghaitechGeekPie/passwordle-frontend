@@ -7,5 +7,6 @@ export default class CookiePreset {
         guess: new Array(24).fill("None"),
     };
     steps: number = 0;
+    salt: string = "";
     [key: string]: any
 }

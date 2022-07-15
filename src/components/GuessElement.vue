@@ -1,5 +1,5 @@
 <template>
-  <div :class="'element ' + state">
+  <div :class="['element', state]">
     <div>
       {{ letter }}
     </div>
@@ -27,7 +27,7 @@ export default defineComponent({
 
 <style scoped>
 .element {
-  @apply w-20 h-20 text-white font-bold text-center text-4xl flex items-center justify-center;
+  @apply w-12 h-12 md:w-16 md:h-16 text-white font-bold text-center text-3xl md:text-4xl flex items-center justify-center select-none;
 }
 
 .Exact {

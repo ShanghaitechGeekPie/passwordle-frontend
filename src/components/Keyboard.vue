@@ -77,11 +77,11 @@ export default defineComponent({
 }
 
 .key {
-  @apply w-8 h-12 rounded font-bold mx-1 text-xl flex items-center justify-center bg-gray-200;
+  @apply w-7 md:w-9 h-12 md:h-14 rounded font-bold mx-1 text-xl flex items-center justify-center bg-gray-200;
 }
 
 .enter {
-  @apply w-[4.5rem] h-12 rounded font-bold mx-1 text-xl flex items-center justify-center bg-gray-200;
+  @apply w-16 md:w-20 h-12 md:h-14 rounded font-bold mx-1 text-xl flex items-center justify-center bg-gray-200;
 }
 
 .release {

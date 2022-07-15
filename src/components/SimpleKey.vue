@@ -34,6 +34,6 @@ export default defineComponent({
 
 <style scoped>
 .element {
-  @apply w-8 h-12 rounded font-bold mx-1 text-xl flex items-center justify-center bg-gray-200 active:bg-gray-500 active:text-white;
+  @apply w-7 md:w-9 h-12 md:h-14 rounded font-bold mx-1 text-xl flex items-center justify-center bg-gray-200 active:bg-gray-500 active:text-white;
 }
 </style>
