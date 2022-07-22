@@ -21,7 +21,7 @@ export default () => {
         status.loading = true
         status.error = "";
         try {
-            const response = await fetchByPost("/create/");
+            const response = await fetchByPost("/create");
             clearPreset();            
             setPreset({
                 id: response.data.id,
@@ -98,6 +98,9 @@ export default () => {
             const response = await fetchByPost(`/guess/${$global.id}`, {
                 guess: status.surmise,
             });
+            if (response.data.key !== null){
+                alert(response.data.key);
+            }
             setPreset({
                 result: response.data,
                 steps: $global.steps + 1,
