@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VGithubIcon } from 'v-github-icon';
 import Keyboard from "@/components/Keyboard.vue";
 import usePasswordle from "@/composables/usePasswordle";
 import GuessDisplay from "@/components/GuessDisplay.vue";
@@ -10,6 +11,10 @@ doGetGame();
 </script>
 
 <template>
+  <VGithubIcon
+      position="top-right"
+      url="https://github.com/ShanghaitechGeekPie/passwordle-frontend"
+  />
   <div class="w-screen h-screen flex flex-col">
     <div
       class="border-b w-full flex justify-center border-gray-300 py-1 md:py-2"

@@ -860,6 +860,11 @@ util-deprecate@^1.0.2:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
+v-github-icon@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/v-github-icon/-/v-github-icon-3.1.1.tgz#02e5fcbd3af8eb1f99242fcea8ea72a65899a358"
+  integrity sha512-tdW5JUSzBOvZDzgn6Bh1/bUEfQnEW/RWd2cuuIlAkRiNC+n+iIKKvCCTTxY4LWHdq5l3Pd0zaNXPndcYxgSbtQ==
+
 vite@^2.9.9:
   version "2.9.14"
   resolved "https://registry.yarnpkg.com/vite/-/vite-2.9.14.tgz#c438324c6594afd1050df3777da981dee988bb1b"
